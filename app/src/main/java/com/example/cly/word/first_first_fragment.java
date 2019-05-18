@@ -141,6 +141,45 @@ public class first_first_fragment extends Fragment {
                 id =news.getNews_id();
                 DeleteDialog(id);
                 break;
+
+                /*itemView=info.targetView;
+                //textId=(TextView)itemView.findViewById(R.id.textId);
+                textWord =(TextView)itemView.findViewById(R.id.word_name);
+                if(textWord!=null){
+                    String strWord=textWord.getText().toString();
+                    DeleteDialog(strWord);
+                }
+                break;*/
+            //case 2:
+
+
+            //case R.id.action_update:
+                //Toast.makeText(getContext(),"更新",Toast.LENGTH_LONG).show();
+                /*info=(AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+                itemView=info.targetView;
+                //textId=(TextView)itemView.findViewById( R.id.textId );
+                textWord =(TextView)itemView.findViewById(R.id.word_name);
+                textMeaning =(TextView)itemView.findViewById(R.id.word_meaning);
+                //textSample =(TextView)itemView.findViewById(R.id.textViewSample);
+                if(textWord!=null && textMeaning!=null ){
+                    //String strId=textId.getText().toString();
+                    String strWord=textWord.getText().toString();
+                    String strMeaning=textMeaning.getText().toString();
+                    //String strSample=textSample.getText().toString();
+                    UpdateDialog( strWord, strMeaning);
+                }
+                break;*/
+
+                /*
+                news=adapter.getItem(adapter.getPosition());
+                id=news.getId();
+                String name =news.getName();
+                String meaning=news.getMeaning();
+                String sample=news.getSample();
+                UpdateDialog(id,name,meaning,sample);
+                break;
+                */
+
             case R.id.action_collect:
                 news=adapter.getItem(adapter.getPosition());
                 changecollect(news.getNews_id(),"yes");

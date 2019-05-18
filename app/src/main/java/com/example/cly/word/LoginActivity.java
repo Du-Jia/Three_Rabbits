@@ -20,12 +20,12 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //利用布局资源文件设置用户界面
-        setContentView(R.layout.login);
+        setContentView(R.layout.activity_login);
 
         //通过资源标识获得控件实例
-        et_username = (EditText) findViewById(R.id.account);
-        et_password = (EditText) findViewById(R.id.pwd);
-        bt_log = (Button) findViewById(R.id.login);
+        et_username = (EditText) findViewById(R.id.input_email);
+        et_password = (EditText) findViewById(R.id.input_password);
+        bt_log = (Button) findViewById(R.id.btn_login);
         bt_bos = (Button) findViewById(R.id.quit);
 
         //给登录按钮注册监听器，实现监听器接口，编写事件
@@ -49,12 +49,14 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
         //给取消按钮注册监听器，实现监听器接口，编写事件
-        bt_bos.setOnClickListener(new View.OnClickListener() {
+
+   /*     bt_bos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
-        });
+        });*/
+
     }
 }
 
