@@ -21,7 +21,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //利用布局资源文件设置用户界面
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.login);
 
         //通过资源标识获得控件实例
         et_username = (EditText) findViewById(R.id.input_email);
@@ -50,7 +50,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
         //给取消按钮注册监听器，实现监听器接口，编写事件
-
        tv_signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,7 +58,6 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
 }
 
