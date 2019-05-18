@@ -141,9 +141,48 @@ public class first_first_fragment extends Fragment {
                 id =news.getNews_id();
                 DeleteDialog(id);
                 break;
+
+                /*itemView=info.targetView;
+                //textId=(TextView)itemView.findViewById(R.id.textId);
+                textWord =(TextView)itemView.findViewById(R.id.word_name);
+                if(textWord!=null){
+                    String strWord=textWord.getText().toString();
+                    DeleteDialog(strWord);
+                }
+                break;*/
+            //case 2:
+
+
+            //case R.id.action_update:
+                //Toast.makeText(getContext(),"更新",Toast.LENGTH_LONG).show();
+                /*info=(AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+                itemView=info.targetView;
+                //textId=(TextView)itemView.findViewById( R.id.textId );
+                textWord =(TextView)itemView.findViewById(R.id.word_name);
+                textMeaning =(TextView)itemView.findViewById(R.id.word_meaning);
+                //textSample =(TextView)itemView.findViewById(R.id.textViewSample);
+                if(textWord!=null && textMeaning!=null ){
+                    //String strId=textId.getText().toString();
+                    String strWord=textWord.getText().toString();
+                    String strMeaning=textMeaning.getText().toString();
+                    //String strSample=textSample.getText().toString();
+                    UpdateDialog( strWord, strMeaning);
+                }
+                break;*/
+
+                /*
+                news=adapter.getItem(adapter.getPosition());
+                id=news.getId();
+                String name =news.getName();
+                String meaning=news.getMeaning();
+                String sample=news.getSample();
+                UpdateDialog(id,name,meaning,sample);
+                break;
+                */
+
             case R.id.action_collect:
                 news=adapter.getItem(adapter.getPosition());
-                changecollect(news.getNews_id(),true);
+                changecollect(news.getNews_id(),"yes");
                 break;
         }
         return true;
@@ -180,7 +219,6 @@ public class first_first_fragment extends Fragment {
         values.put( "news_time", simpleDateFormat.format(date) );
         values.put("collect","no");
         values.put( "news_type",strtype );
-
         long newRowId;
         newRowId = db.insert(DataBase.TABLE_NAME1,null,values);
     }
@@ -249,28 +287,11 @@ public class first_first_fragment extends Fragment {
         String t=id+"";
         db.execSQL( sql,new String[]{collect,t} );
     }
-    private void changecollect(int id,boolean collect){
-        String path = "http://192.168.43.93:8080/Web/Test2";
-        HttpUtil.changecollect(id,collect,path,new HttpCallbackListener(){
-            @Override
-            public void onFinish(String response) {//成功时的处理方法
-
-            }
-            @Override
-            public void onError(Exception e){//失败时的处理方法
-
-            }
-        });
-    }
     private void UpdateUseSql(int id,String strWord,String strMeaning,String strNewSample){
         SQLiteDatabase db=mDBHelper.getReadableDatabase();
         String sql="update wordDB set name = ?,meaning=?,sample=? where id=?";
         String t=id+"";
         db.execSQL( sql,new String[]{strWord,strMeaning,strNewSample,t} );
-    }
-    public interface  HttpCallbackListener{
-        void onFinish(String response);
-        void onError(Exception e);
     }
     /*private void Update(String strId,String strWord,String strMeaning,String strSample){
         SQLiteDatabase db=mDBHelper.getReadableDatabase();

@@ -18,7 +18,6 @@ import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,7 +38,6 @@ public class second_main_fragment extends Fragment {
         wordTitleRecyclerView.setAdapter(adapter);
         mDBHelper=new GeneralDBHelper( getActivity());
         return view;
-
     }
     class WordAdapter extends RecyclerView.Adapter<WordAdapter.ViewHolder>{
         private List<News> mNewsList;
@@ -63,12 +61,14 @@ public class second_main_fragment extends Fragment {
             return mNewsList.get( position );
         }
         class ViewHolder extends RecyclerView.ViewHolder{
-            TextView newstitleText;
-            TextView newstimeText;
+            TextView noticetitleText;
+            TextView noticetimeText;
+            TextView noticecontentText;
             public ViewHolder(View view){
                 super(view);
-                newstitleText=(TextView)view.findViewById( R.id.news_title );
-                newstimeText=(TextView)view.findViewById( R.id.news_time );
+                noticetitleText=(TextView)view.findViewById( R.id.notice_title );
+                noticetimeText=(TextView)view.findViewById( R.id.notice_time );
+                noticecontentText=(TextView)view.findViewById( R.id.notice_content );
             }
         }
         public void update(List<News> mNewsList){
@@ -78,14 +78,14 @@ public class second_main_fragment extends Fragment {
 
         @Override
         public ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType){
-            View view=LayoutInflater.from( parent.getContext() ).inflate( R.layout.news_item,parent,false );
+            View view=LayoutInflater.from( parent.getContext() ).inflate( R.layout.notice_item,parent,false );
             final ViewHolder holder=new ViewHolder( view );
-            view.setOnClickListener( new View.OnClickListener(){
+            /*view.setOnClickListener( new View.OnClickListener(){
                 public void onClick(View v){
                     News news=mNewsList.get( holder.getAdapterPosition() );
                     NewsContentActivity.actionStart( parent.getContext(),news.getNews_title(),news.getNews_content(),news.getNews_time());
                 }
-            } );
+            } );*/
             return holder;
 
         }
@@ -93,8 +93,9 @@ public class second_main_fragment extends Fragment {
         @Override
         public void onBindViewHolder(final ViewHolder holder, final int position) {
             News news=mNewsList.get(position);
-            holder.newstitleText.setText(news.getNews_title());
-            holder.newstimeText.setText( news.getNews_time() );
+            holder.noticetitleText.setText(news.getNews_title());
+            holder.noticetimeText.setText( news.getNews_time() );
+            holder.noticecontentText.setText( news.getNews_content() );
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
@@ -102,7 +103,6 @@ public class second_main_fragment extends Fragment {
                     return false;
                 }
             });
-
         }
 
 
@@ -143,7 +143,7 @@ public class second_main_fragment extends Fragment {
             @Override
             protected void onPostExecute(Map <String, Object> result) {
                 //adapter.mNewsList=(List<News>)result.get("foodList");
-                adapter.notifyDataSetChanged();
+                //adapter.notifyDataSetChanged();
 
             }
 
@@ -172,9 +172,8 @@ public class second_main_fragment extends Fragment {
             }
         }
 
+
     }
-
-
     public interface  HttpCallbackListener{
         void onFinish(String response);
         void onError(Exception e);

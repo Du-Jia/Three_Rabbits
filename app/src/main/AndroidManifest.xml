@@ -24,7 +24,7 @@
         <activity android:name=".NewsContentActivity" />
         <activity android:name=".Search" />
         <activity android:name=".SearchActivity" />
-        <activity android:name=".CollectActivity" ></activity>
+        <activity android:name=".collectActivity" />
         <activity android:name=".login_signUp.LoginActivity" />
         <activity android:name=".signUpActivity"></activity>
     </application>
