@@ -35,6 +35,7 @@ public class first_first_fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        super.onCreate(savedInstanceState);
         View view = inflater.inflate( R.layout.first_first_fragment, container, false );
         RecyclerView wordTitleRecyclerView = (RecyclerView)view.findViewById( R.id.word_title_recycler_view );
         LinearLayoutManager layoutManager=new LinearLayoutManager(getActivity());
@@ -140,6 +141,7 @@ public class first_first_fragment extends Fragment {
                 id =news.getNews_id();
                 DeleteDialog(id);
                 break;
+
                 /*itemView=info.targetView;
                 //textId=(TextView)itemView.findViewById(R.id.textId);
                 textWord =(TextView)itemView.findViewById(R.id.word_name);
@@ -177,11 +179,10 @@ public class first_first_fragment extends Fragment {
                 UpdateDialog(id,name,meaning,sample);
                 break;
                 */
+
             case R.id.action_collect:
                 news=adapter.getItem(adapter.getPosition());
                 changecollect(news.getNews_id(),"yes");
-                Intent intent=new Intent(getContext(),MainActivity.class);
-                startActivity(intent);
                 break;
         }
         return true;

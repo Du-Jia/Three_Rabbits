@@ -1,55 +1,27 @@
 package com.example.cly.word;
 
-import android.content.ContentValues;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.EditText;
-import android.widget.TableLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.Closeable;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Random;
 
 
-
-
-public class first_second_fragment extends Fragment {
+public class first_three_fragment extends Fragment {
     GeneralDBHelper mDBHelper;
     WordAdapter adapter;
 
@@ -57,11 +29,11 @@ public class first_second_fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater,
                              @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        View view = inflater.inflate( R.layout.first_second_fragment, container, false );
+        View view = inflater.inflate( R.layout.first_three_fragment, container, false );
         RecyclerView wordTitleRecyclerView = (RecyclerView)view.findViewById( R.id.word_title_recycler_view );
         LinearLayoutManager layoutManager=new LinearLayoutManager(getActivity());
         wordTitleRecyclerView.setLayoutManager(layoutManager);
-        adapter=new WordAdapter(getNews(),2);
+        adapter=new WordAdapter(getNews(),3);
         wordTitleRecyclerView.setAdapter(adapter);
         setHasOptionsMenu(true);
         registerForContextMenu( wordTitleRecyclerView );//注册上下文菜单
@@ -74,7 +46,7 @@ public class first_second_fragment extends Fragment {
         GeneralDBHelper dbHelpermDBHelper=new GeneralDBHelper( getContext() );
         SQLiteDatabase db=dbHelpermDBHelper.getWritableDatabase();
         Cursor c;
-        c=db.query( DataBase.TABLE_NAME1,null,"news_type='2'",null,null,null,null );
+        c=db.query( DataBase.TABLE_NAME1,null,"news_type='3'",null,null,null,null );
         if(c.moveToFirst()){
             do{
                 int news_id=c.getInt( c.getColumnIndex( "news_id" ) );

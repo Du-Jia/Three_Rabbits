@@ -22,7 +22,7 @@ import okhttp3.Request;
 
 }*/
 public class HttpUtil {
-    public static void sendHttpRequest(final String address,final WordAdapter.HttpCallbackListener listener){
+    public static void sendHttpRequest(final int type,final String address,final WordAdapter.HttpCallbackListener listener){
         new Thread( new Runnable() {
             @Override
             public void run() {
@@ -50,7 +50,57 @@ public class HttpUtil {
                     //String[] arr = {"aaa","bbb","ccc","ddd"};
                     ObjectOutputStream oos = new ObjectOutputStream(connection
                             .getOutputStream());
-                    oos.writeObject(1);//写入输出对象
+                    oos.writeObject(type);//写入输出对象
+                    oos.flush();
+                    oos.close();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    StringBuilder response=new StringBuilder(  );
+                    String line;
+                    while((line=reader.readLine())!=null){
+                        response.append( line );
+                    }
+                    if(listener!=null){
+                        listener.onFinish( response.toString() );//网络获取成功时
+                    }
+                }catch(Exception e){
+                    listener.onError( e );//网络获取失败时
+                }finally{
+                    if(connection!=null){
+                        connection.disconnect();
+                    }
+                }
+            }
+        } ).start();
+    }
+    public static void sendHttpRequest(final int type,final String address,final second_main_fragment.HttpCallbackListener listener){
+        new Thread( new Runnable() {
+            @Override
+            public void run() {
+                HttpURLConnection connection=null;
+                try{
+                    URL url=new URL(address);
+                    connection=(HttpURLConnection)url.openConnection();
+                    connection.setRequestMethod( "POST" );
+                    connection.setConnectTimeout( 8000 );
+                    connection.setReadTimeout( 8000 );
+                    //connection.setDoInput( true );
+                    //connection.setDoOutput( true );
+
+                    /*DataOutputStream out = new DataOutputStream(connection
+                            .getOutputStream());
+                    // 正文，正文内容其实跟get的URL中 '? '后的参数字符串一致
+                    String content = "aaa" + URLEncoder.encode("Is is a test", "UTF-8");
+                    // DataOutputStream.writeBytes将字符串中的16位的unicode字符以8位的字符形式写到流里面
+                    out.writeBytes(content);
+                    //流用完记得关
+                    out.flush();*/
+
+                    //InputStream in=connection.getInputStream();
+
+                    //String[] arr = {"aaa","bbb","ccc","ddd"};
+                    ObjectOutputStream oos = new ObjectOutputStream(connection
+                            .getOutputStream());
+                    oos.writeObject(type);//写入输出对象
                     oos.flush();
                     oos.close();
                     BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));

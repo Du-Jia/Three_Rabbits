@@ -2,9 +2,9 @@ package com.example.cly.word;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
@@ -16,8 +16,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class second_main_fragment extends Fragment {
 
@@ -25,65 +29,73 @@ public class second_main_fragment extends Fragment {
     WordAdapter adapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreate( savedInstanceState );
         View view = inflater.inflate( R.layout.second_main, container, false );
         RecyclerView wordTitleRecyclerView = (RecyclerView)view.findViewById( R.id.word_title_recycler_view );
         LinearLayoutManager layoutManager=new LinearLayoutManager(getActivity());
         wordTitleRecyclerView.setLayoutManager(layoutManager);
-        adapter=new WordAdapter(getNews());
+        adapter=new WordAdapter(getNews(),4);
         wordTitleRecyclerView.setAdapter(adapter);
-        //setHasOptionsMenu(true);
-        registerForContextMenu( wordTitleRecyclerView );//注册上下文菜单
         mDBHelper=new GeneralDBHelper( getActivity());
         return view;
     }
     class WordAdapter extends RecyclerView.Adapter<WordAdapter.ViewHolder>{
-        private List<News> mWordList;
-        private int mPosition = -1;
+        private List<News> mNewsList;
+        private int mPosition = 0;
+        int type=1;
 
+        public WordAdapter(List<News> mNewsList,int type){//type第几个界面
+            this.mNewsList=mNewsList;
+            this.type=type;
+            new MyFoodTask().execute();
+        }
         public int getPosition() {
             return mPosition;
         }
-        public WordAdapter(List<News> mWordList){
-            this.mWordList=mWordList;
-        }
+
         public void removeItem(int position) {
-            mWordList.remove(position);
+            mNewsList.remove(position);
             notifyDataSetChanged();
         }
         public News getItem(int position){
-            return mWordList.get( position );
+            return mNewsList.get( position );
         }
         class ViewHolder extends RecyclerView.ViewHolder{
-            TextView newstitleText;
-            TextView newstimeText;
+            TextView noticetitleText;
+            TextView noticetimeText;
+            TextView noticecontentText;
             public ViewHolder(View view){
                 super(view);
-                newstitleText=(TextView)view.findViewById( R.id.news_title );
-                newstimeText=(TextView)view.findViewById( R.id.news_time );
+                noticetitleText=(TextView)view.findViewById( R.id.notice_title );
+                noticetimeText=(TextView)view.findViewById( R.id.notice_time );
+                noticecontentText=(TextView)view.findViewById( R.id.notice_content );
             }
         }
-        public void update(List<News> mWordList){
-            this.mWordList=mWordList;
+        public void update(List<News> mNewsList){
+            this.mNewsList=mNewsList;
             notifyDataSetChanged();
         }
-        public WordAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
-            View view=LayoutInflater.from( parent.getContext() ).inflate( R.layout.news_item,parent,false );
-            final WordAdapter.ViewHolder holder=new WordAdapter.ViewHolder( view );
-            view.setOnClickListener( new View.OnClickListener(){
+
+        @Override
+        public ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType){
+            View view=LayoutInflater.from( parent.getContext() ).inflate( R.layout.notice_item,parent,false );
+            final ViewHolder holder=new ViewHolder( view );
+            /*view.setOnClickListener( new View.OnClickListener(){
                 public void onClick(View v){
-                    News word=mWordList.get( holder.getAdapterPosition() );
-                    //WordContentActivity.actionStart( getActivity(),word.getName(),word.getMeaning(),word.getSample(),word.getUpdate() );
+                    News news=mNewsList.get( holder.getAdapterPosition() );
+                    NewsContentActivity.actionStart( parent.getContext(),news.getNews_title(),news.getNews_content(),news.getNews_time());
                 }
-            } );
+            } );*/
             return holder;
 
         }
 
         @Override
-        public void onBindViewHolder(final WordAdapter.ViewHolder holder, final int position) {
-            News news=mWordList.get(position);
-            holder.newstitleText.setText(news.getNews_title());
-            holder.newstimeText.setText(news.getNews_time());
+        public void onBindViewHolder(final ViewHolder holder, final int position) {
+            News news=mNewsList.get(position);
+            holder.noticetitleText.setText(news.getNews_title());
+            holder.noticetimeText.setText( news.getNews_time() );
+            holder.noticecontentText.setText( news.getNews_content() );
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
@@ -93,11 +105,78 @@ public class second_main_fragment extends Fragment {
             });
         }
 
+
         @Override
         public int getItemCount() {
-            return mWordList.size();
+            return mNewsList.size();
         }
 
+        private class MyFoodTask extends AsyncTask<String, Void, Map<String,Object>> {
+            @Override
+            protected void onPreExecute() {
+
+            }
+            @Override
+            protected Map <String, Object> doInBackground(String... params) {
+
+
+                String path = "http://192.168.43.93:8080/Web/Test";
+                HttpUtil.sendHttpRequest(type,path,new HttpCallbackListener(){
+                    @Override
+                    public void onFinish(String response) {//成功时的处理方法
+                        try {
+                            Map <String, Object> map=parseJson( response );
+                            mNewsList.addAll( (List<News>) map.get("newslist") );
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    @Override
+                    public void onError(Exception e){//失败时的处理方法
+
+                    }
+                });
+                return null;
+            }
+
+
+            @Override
+            protected void onPostExecute(Map <String, Object> result) {
+                //adapter.mNewsList=(List<News>)result.get("foodList");
+                //adapter.notifyDataSetChanged();
+
+            }
+
+
+            private Map <String, Object> parseJson(String json) throws Exception {
+
+                Map <String, Object> result = new HashMap<String, Object>();
+                ArrayList<News> lists = new ArrayList <News>();
+                JSONObject bigObj = new JSONObject( json );
+                JSONArray array = bigObj.getJSONArray( "newslist" );
+                News n = null;
+                for (int i = 0; i < array.length(); i++) {
+                    n = new News();
+                    JSONObject smallObj = array.getJSONObject( i );
+
+                    n.setNews_id( smallObj.getInt( "news_id" ) );
+                    n.setNews_title( smallObj.getString( "news_title" ) );
+                    n.setNews_content( smallObj.getString( "news_content" ) );
+                    n.setNews_type( smallObj.getInt( "news_type" ) );
+                    lists.add( n );
+                }
+                result.put( "newslist", lists );
+                return result;
+
+
+            }
+        }
+
+
+    }
+    public interface  HttpCallbackListener{
+        void onFinish(String response);
+        void onError(Exception e);
     }
     private List<News> getNews() {
         List<News> wordList = new ArrayList<>();
@@ -118,29 +197,5 @@ public class second_main_fragment extends Fragment {
             } while (c.moveToNext());
         }
         return wordList;
-    }
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        new MenuInflater(getActivity()).inflate(R.menu.menu_context_test, menu);
-        super.onCreateContextMenu(menu, v, menuInfo);
-    }
-    public boolean onContextItemSelected(MenuItem item){
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        News news;
-        int id;
-        switch(item.getItemId()){
-            case R.id.collect:
-                news=adapter.getItem(adapter.getPosition());
-                id=news.getNews_id();
-                changecollect(id,"no");
-                adapter.update(getNews());
-                break;
-        }
-        return true;
-    }
-    private void changecollect(int id,String collect){
-        SQLiteDatabase db=mDBHelper.getReadableDatabase();
-        String sql="update "+DataBase.TABLE_NAME1+" set collect=? where news_id=?";
-        String t=id+"";
-        db.execSQL( sql,new String[]{collect,t} );
     }
 }

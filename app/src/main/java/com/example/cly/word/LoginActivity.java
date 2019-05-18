@@ -49,12 +49,14 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
         //给取消按钮注册监听器，实现监听器接口，编写事件
+
    /*     bt_bos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });*/
+
     }
 }
 

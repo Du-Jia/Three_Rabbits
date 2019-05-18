@@ -19,15 +19,17 @@ public class first_main_fragment extends Fragment implements View.OnClickListene
     TextView first_first;
     TextView first_second;
     TextView first_three;
-    TextView first_four;
+
+    //TextView first_four;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        super.onCreate(savedInstanceState);
         View view = inflater.inflate( R.layout.first_main, container, false );
         vp = (ViewPager) view.findViewById(R.id.vp);
         first_first=(TextView) view.findViewById( R.id.first_first );
         first_second=(TextView) view.findViewById( R.id.first_second );
         first_three=(TextView) view.findViewById( R.id.first_three );
-        first_four=(TextView) view.findViewById( R.id.first_four );
+        //first_four=(TextView) view.findViewById( R.id.first_four );
         initias();
         class MyAdater extends FragmentPagerAdapter {
             List<Fragment> fragments;
@@ -56,6 +58,7 @@ public class first_main_fragment extends Fragment implements View.OnClickListene
 
         fragments.add(new first_first_fragment());
         fragments.add(new first_second_fragment());
+        fragments.add(new first_three_fragment());
 
         PagerAdapter adapter = new MyAdater(getChildFragmentManager(),
                 fragments);
@@ -94,7 +97,7 @@ public class first_main_fragment extends Fragment implements View.OnClickListene
         first_first.setOnClickListener( this );
         first_second.setOnClickListener( this );
         first_three.setOnClickListener( this );
-        first_four.setOnClickListener( this );
+        //first_four.setOnClickListener( this );
     }
     @Override
     public void onClick(View v) {
@@ -108,9 +111,9 @@ public class first_main_fragment extends Fragment implements View.OnClickListene
             case R.id.first_three:
                 vp.setCurrentItem( 2 );
                 break;
-            case R.id.first_four:
-                vp.setCurrentItem( 3 );
-                break;
+            //case R.id.first_four:
+                //vp.setCurrentItem( 3 );
+                //break;
             default:
                 break;
         }

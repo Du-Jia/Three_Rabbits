@@ -20,7 +20,7 @@
         android:gravity="center"
         android:textSize="20dp"
         android:clickable="false"
-        android:text="收藏"/>
+        android:text="通知"/>
     <TextView
         android:id="@+id/three"
         android:layout_width="0dp"
