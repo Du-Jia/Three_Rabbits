@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class LoginActivity extends AppCompatActivity {
@@ -15,7 +16,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText et_username;
     private EditText et_password;
     private Button bt_log;
-    private Button bt_bos;
+    private TextView tv_signUp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,7 +27,7 @@ public class LoginActivity extends AppCompatActivity {
         et_username = (EditText) findViewById(R.id.input_email);
         et_password = (EditText) findViewById(R.id.input_password);
         bt_log = (Button) findViewById(R.id.btn_login);
-        bt_bos = (Button) findViewById(R.id.quit);
+        tv_signUp = (TextView) findViewById(R.id.link_signup);
 
         //给登录按钮注册监听器，实现监听器接口，编写事件
         bt_log.setOnClickListener(new View.OnClickListener() {
@@ -50,12 +51,14 @@ public class LoginActivity extends AppCompatActivity {
         });
         //给取消按钮注册监听器，实现监听器接口，编写事件
 
-   /*     bt_bos.setOnClickListener(new View.OnClickListener() {
+       tv_signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                Intent intent = new Intent();
+                intent.setClass(LoginActivity.this,signUpActivity.class);
+                startActivity(intent);
             }
-        });*/
+        });
 
     }
 }
