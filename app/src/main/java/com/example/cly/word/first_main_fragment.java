@@ -19,7 +19,6 @@ public class first_main_fragment extends Fragment implements View.OnClickListene
     TextView first_first;
     TextView first_second;
     TextView first_three;
-
     //TextView first_four;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment

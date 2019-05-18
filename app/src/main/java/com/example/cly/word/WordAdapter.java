@@ -96,14 +96,11 @@ class WordAdapter extends RecyclerView.Adapter<WordAdapter.ViewHolder>{
 
 
             String path = "http://192.168.43.93:8080/Web/Test";
-
             HttpUtil.sendHttpRequest(type,path,new HttpCallbackListener(){
-
                 @Override
                 public void onFinish(String response) {//成功时的处理方法
                     try {
                         Map <String, Object> map=parseJson( response );
-
                         mNewsList.addAll( (List<News>) map.get("newslist") );
                     } catch (Exception e) {
                         e.printStackTrace();
