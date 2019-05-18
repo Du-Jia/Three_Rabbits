@@ -14,16 +14,16 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:textSize="20dp"
+        android:textSize="25dp"
         android:clickable="false"
-        android:text="推荐"/>
+        android:text="推  荐"/>
     <TextView
         android:id="@+id/first_second"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:textSize="20dp"
+        android:textSize="25dp"
         android:clickable="false"
         android:text="校园新闻"/>
     <TextView
@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:textSize="20dp"
+        android:textSize="25dp"
         android:clickable="false"
         android:text="校园生活"/>
 </LinearLayout>
